@@ -1,5 +1,5 @@
 import random
-
+import math
 import pandas as pd
 
 label_nums = {}  # 各类别数量
@@ -35,13 +35,11 @@ def p_x(y):
 
 
 def predict(X):  # argMax log(P(y_i)∑log(P(X_i|y_i)))  预测函数,x为特征,y为特征类别
-    yes_chance, no_chance = 0, 0
-    pass
-
-
-"""
-p(X=x_i|Y=y_i)
-"""
+    res_lab, = ''
+    log_p_x, log_p_x_y = 0, 0
+    for y in label_nums:
+        pass
+        # log_p_x = math.log(p_x(y))
 
 
 def makeMel():  # 随机生产西瓜特征
@@ -63,9 +61,6 @@ if __name__ == '__main__':
     datas = pd.read_csv('.\\watermel.txt')  # 数据表
     labels = datas['goodmelon']  # 标签字段
     trans = datas.drop(['goodmelon', 'id'], axis=1)  # 训练数据
-    test = [makeMel() for i in range(5)]  # 生产随机西瓜特征
     for fts, lb in zip(trans.values, labels):
         transform(fts, lb)  # 训练
-
-    # predict(test)  # 预测
-    p_x_y('Dark', "yes")  # 计算条件概率
+    predict(makeMel())  # 预测
