@@ -26,10 +26,14 @@ def transform(X, y):
             feat_nums[y][ft] += 1
 
 
-# def p_x_y(X, y):
-#     for ft in X: # 样本中的各系
-#         if y in label_nums:
-#             pass
+def p_x_y(X, y):
+    for ft in X:  # 样本中的各系
+        if y in label_nums:
+            pass
+
+
+def p_x(cls):
+    return label_nums[cls] / label_all_num
 
 
 def predict(X):  # argMax log(P(y_i)∑log(P(X_i|y_i)))  预测函数
