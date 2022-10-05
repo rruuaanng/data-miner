@@ -5,7 +5,6 @@ import pandas as pd
 label_nums = {}  # 各类别数量
 label_all_num = 0  # 类别总数
 feat_nums = {}  # 各特征数量
-lap = 0.75  # 平滑
 
 
 def transform(X, y):
@@ -26,17 +25,16 @@ def transform(X, y):
             feat_nums[y][ft] += 1
 
 
-def p_x_y(X, y):
-    for ft in X:  # 样本中的各系
-        if y in label_nums:
-            pass
+def p_x_y(x, y):
+    if y in feat_nums:
+        return (feat_nums[y][x] + label_all_num) / (label_nums[y] * label_all_num)
 
 
-def p_x(cls):
-    return label_nums[cls] / label_all_num
+def p_x(y):
+    return label_nums[y] / label_all_num
 
 
-def predict(X):  # argMax log(P(y_i)∑log(P(X_i|y_i)))  预测函数
+def predict(X):  # argMax log(P(y_i)∑log(P(X_i|y_i)))  预测函数,x为特征,y为特征类别
     yes_chance, no_chance = 0, 0
     pass
 
@@ -68,6 +66,6 @@ if __name__ == '__main__':
     test = [makeMel() for i in range(5)]  # 生产随机西瓜特征
     for fts, lb in zip(trans.values, labels):
         transform(fts, lb)  # 训练
-    print(feat_nums)
+
     # predict(test)  # 预测
-    # p_x_y(makeMel(), "yes") #计算条件概率'
+    p_x_y('Dark', "yes")  # 计算条件概率
