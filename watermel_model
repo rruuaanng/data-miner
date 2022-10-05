@@ -35,10 +35,13 @@ def p_x(y):
 
 
 def predict(X):  # argMax log(P(y_i)∑log(P(X_i|y_i)))  预测函数,x为特征,y为特征类别
-    res_lab, = ''
+    res_lab, res_p = '', 0
     log_p_x, log_p_x_y = 0, 0
     for y in label_nums:
-        pass
+        for ft in X:
+            log_p_x_y += math.log(p_x_y(ft, y), 2)
+            
+            # res_p=log_p_x_y*_log_p_x
         # log_p_x = math.log(p_x(y))
 
 
