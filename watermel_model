@@ -2,33 +2,44 @@ import random
 
 import pandas as pd
 
-label_nums = {}
-label_all_num = 0
-feat_nums = {}
-lap = 0.75
+label_nums = {}  # 各类别数量
+label_all_num = 0  # 类别总数
+feat_nums = {}  # 各特征数量
+lap = 0.75  # 平滑
 
 
 def transform(X, y):
-    global label_all_num, label_nums, feat_nums
-    for fts, lb in zip(X.values, y.values):
+    global label_nums, label_all_num, feat_nums
+    if y not in label_nums:
+        label_nums[y] = 1
+        label_all_num += 1
+    else:
+        label_nums[y] += 1
+
+
+# def p_x_y(X, y):
+#     for ft in X: # 样本中的各系
+#         if y in label_nums:
+#             pass
+
+
+def predict(X):  # argMax log(P(y_i)∑log(P(X_i|y_i)))  预测函数
+    yes_chance, no_chance = 0, 0
+    for fts in X:
         for ft in fts:
-            if ft not in feat_nums:
-                feat_nums[ft] = 1
+            if ft in feat_nums and "yes" in label_nums:
+                pass
             else:
-                feat_nums[ft] += 1
-        if lb not in label_nums:
-            label_all_num += 1
-            label_nums[lb] = 1
-        else:
-            label_nums[lb] += 1
+                pass
 
 
-def predict(X):  # argMax log(P(y_i)∑log(P(X_i|y_i)))
-    pass
+"""
+p(X=x_i|Y=y_i)
+"""
 
 
-def makeMel():
-    color = ['Turquoise', 'Dark', 'Black', 'Green', ' Light', 'Lightwhite', 'turquoise']
+def makeMel():  # 随机生产西瓜特征
+    color = ['Turquoise', 'Dark', 'Black', 'Green', 'Light', 'Lightwhite', 'turquoise']
     root = ['hard', 'curled', 'slightlycurled']
     knocking = ['turbid', 'dull', 'crisp']
     texture = ['clear', 'slightlypaste', 'fuzzy']
@@ -43,7 +54,12 @@ def makeMel():
 
 
 if __name__ == '__main__':
-    datas = pd.read_csv('E:\\datasets\\in_data\\texts\\watermel.csv')
-    labels = datas['goodmelon']
-    trans = datas.drop(['goodmelon', 'id'], axis=1)
-    transform(trans, labels)
+    datas = pd.read_csv('.\\watermel.txt')  # 数据表
+    labels = datas['goodmelon']  # 标签字段
+    trans = datas.drop(['goodmelon', 'id'], axis=1)  # 训练数据
+    test = [makeMel() for i in range(5)]  # 生产随机西瓜特征
+    for fts, lb in zip(trans.values, labels):
+        transform(fts, lb)  # 训练
+        
+    # predict(test)  # 预测
+    # p_x_y(makeMel(), "yes") #计算条件概率'
