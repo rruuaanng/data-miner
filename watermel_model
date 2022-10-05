@@ -16,6 +16,15 @@ def transform(X, y):
     else:
         label_nums[y] += 1
 
+    if y not in feat_nums:
+        feat_nums[y] = {}
+
+    for ft in X:
+        if ft not in feat_nums[y]:
+            feat_nums[y][ft] = 1
+        else:
+            feat_nums[y][ft] += 1
+
 
 # def p_x_y(X, y):
 #     for ft in X: # 样本中的各系
@@ -25,12 +34,7 @@ def transform(X, y):
 
 def predict(X):  # argMax log(P(y_i)∑log(P(X_i|y_i)))  预测函数
     yes_chance, no_chance = 0, 0
-    for fts in X:
-        for ft in fts:
-            if ft in feat_nums and "yes" in label_nums:
-                pass
-            else:
-                pass
+    pass
 
 
 """
@@ -60,6 +64,6 @@ if __name__ == '__main__':
     test = [makeMel() for i in range(5)]  # 生产随机西瓜特征
     for fts, lb in zip(trans.values, labels):
         transform(fts, lb)  # 训练
-        
+    print(feat_nums)
     # predict(test)  # 预测
     # p_x_y(makeMel(), "yes") #计算条件概率'
