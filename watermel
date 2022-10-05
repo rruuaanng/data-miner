@@ -1,0 +1,49 @@
+import random
+
+import pandas as pd
+
+label_nums = {}
+label_all_num = 0
+feat_nums = {}
+lap = 0.75
+
+
+def transform(X, y):
+    global label_all_num, label_nums, feat_nums
+    for fts, lb in zip(X.values, y.values):
+        for ft in fts:
+            if ft not in feat_nums:
+                feat_nums[ft] = 1
+            else:
+                feat_nums[ft] += 1
+        if lb not in label_nums:
+            label_all_num += 1
+            label_nums[lb] = 1
+        else:
+            label_nums[lb] += 1
+
+
+def predict(X):  # argMax log(P(y_i)∑log(P(X_i|y_i)))
+    pass
+
+
+def makeMel():
+    color = ['Turquoise', 'Dark', 'Black', 'Green', ' Light', 'Lightwhite', 'turquoise']
+    root = ['hard', 'curled', 'slightlycurled']
+    knocking = ['turbid', 'dull', 'crisp']
+    texture = ['clear', 'slightlypaste', 'fuzzy']
+    navel = ['concave', 'slightlyconcave', 'flat', 'sunken']
+    tactile = ['hardsliding', 'softandsticky', 'hardandsmooth']
+    return [color[random.randint(0, len(color) - 1)],
+            root[random.randint(0, len(root) - 1)],
+            knocking[random.randint(0, len(knocking) - 1)],
+            texture[random.randint(0, len(texture) - 1)],
+            navel[random.randint(0, len(navel) - 1)],
+            tactile[random.randint(0, len(tactile) - 1)]]
+
+
+if __name__ == '__main__':
+    datas = pd.read_csv('E:\\datasets\\in_data\\texts\\watermel.csv')
+    labels = datas['goodmelon']
+    trans = datas.drop(['goodmelon', 'id'], axis=1)
+    transform(trans, labels)
